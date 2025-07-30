@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:prueba_flutter/features/home/data/models/state_model.dart';
 import 'package:prueba_flutter/features/home/ui/viewmodels/home_view_model.dart';
+import 'package:prueba_flutter/features/media/ui/views/media_view.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -36,7 +37,12 @@ class HomeView extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const MediaView()),
+                      );
+                    },
                     child: const Text("Cargar Archivos"),
                   ),
                 ],
