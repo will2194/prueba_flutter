@@ -113,14 +113,19 @@ class MediaViewModel extends StateNotifier<MediaState> {
         response = await repository.uploadVideo(state.video!);
       } else {
         state = state.copyWith(
+          loading: false,
           error: "Debe seleccionar al menos 2 imágenes o 1 video.",
+          responseMessage: null,
         );
+        return;
       }
-      state = MediaState(responseMessage: response);
+      state = MediaState(
+        loading: false,
+        responseMessage: response,
+        error: null,
+      );
     } catch (e) {
       state = state.copyWith(error: "Error al subir archivos");
-    } finally {
-      state = state.copyWith(loading: false);
     }
   }
 }

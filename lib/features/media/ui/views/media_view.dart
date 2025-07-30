@@ -57,13 +57,16 @@ class MediaView extends ConsumerWidget {
                     icon: const Icon(Icons.upload_file),
                     label: const Text("Subir"),
                   ),
-            if (state.error != null)
-              Text(state.error!, style: const TextStyle(color: Colors.red)),
-            if (state.responseMessage != null)
-              Text(
-                state.responseMessage!,
-                style: const TextStyle(color: Colors.green),
-              ),
+            const SizedBox(height: 20),
+            state.error != null
+                ? Text(state.error!, style: const TextStyle(color: Colors.red))
+                : const SizedBox(),
+            state.responseMessage != null
+                ? Text(
+                    state.responseMessage!,
+                    style: const TextStyle(color: Colors.green),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
