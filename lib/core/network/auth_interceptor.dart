@@ -6,17 +6,17 @@ import 'package:prueba_flutter/core/shared_prefs.dart';
 class AuthInterceptor implements InterceptorContract {
   @override
   FutureOr<BaseResponse> interceptResponse({required BaseResponse response}) {
-    throw UnimplementedError();
+    return response;
   }
 
   @override
   FutureOr<bool> shouldInterceptRequest() {
-    throw UnimplementedError();
+    return true;
   }
 
   @override
   FutureOr<bool> shouldInterceptResponse() {
-    throw UnimplementedError();
+    return true;
   }
 
   @override

@@ -13,7 +13,14 @@ class LoginRepositoryImpl implements LoginRepository {
   }) async {
     final response = await httpClient.post(
       Uri.parse("$apiBaseUrl/PostToken"),
-      body: {"usr": email, "psd": password},
+      body: jsonEncode(<String, String>{
+        "usr": email,
+        "psd": password,
+      }), //{"usr": email, "psd": password},
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Accept": "application/json",
+      },
     );
 
     if (response.statusCode == 200) {
@@ -24,7 +31,7 @@ class LoginRepositoryImpl implements LoginRepository {
 
       return loginResponse.token;
     } else {
-      throw Exception('Login fallido');
+      throw Exception('Error al iniciar sesión: ${response.statusCode}');
     }
   }
 }

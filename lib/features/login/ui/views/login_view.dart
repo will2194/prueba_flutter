@@ -45,6 +45,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
   }
 
   @override
+  void initState() {
+    emailController.text = "pruebas@grupocsi.com";
+    passwordController.text = "Csi2025*";
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(loginViewModelProvider);
 
@@ -54,19 +62,25 @@ class _LoginViewState extends ConsumerState<LoginView> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            Image.asset("assets/images/logo.png", height: 100),
+            const SizedBox(height: 20),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.emailAddress,
             ),
             TextField(
               controller: passwordController,
-              decoration: const InputDecoration(labelText: "Password"),
+              decoration: const InputDecoration(labelText: "Contraseña"),
               obscureText: true,
             ),
             const SizedBox(height: 20),
             state.isLoading
                 ? const CircularProgressIndicator()
-                : ElevatedButton(onPressed: _login, child: const Text("Login")),
+                : ElevatedButton(
+                    onPressed: _login,
+                    child: const Text("Iniciar Sesión"),
+                  ),
             if (state.error != null)
               Padding(
                 padding: const EdgeInsets.only(top: 12),
