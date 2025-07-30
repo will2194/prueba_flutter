@@ -8,7 +8,7 @@ import 'package:prueba_flutter/features/media/domain/repositories/media_reposito
 
 class MediaRepositoryImpl implements MediaRepository {
   @override
-  Future<bool> uploadIne(List<MediaFileModel> mediaFilesIne) async {
+  Future<String> uploadIne(List<MediaFileModel> mediaFilesIne) async {
     final base64Images = await Future.wait(
       mediaFilesIne.map((img) async {
         final bytes = await File(img.path).readAsBytes();
@@ -34,7 +34,10 @@ class MediaRepositoryImpl implements MediaRepository {
     if (response.statusCode != 200) {
       throw Exception("Error al subir archivos");
     } else {
-      return true;
+      final data = jsonDecode(response.body);
+
+      final message = data['msgResponse'];
+      return message;
     }
   }
 
