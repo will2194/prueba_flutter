@@ -13,8 +13,14 @@ class HomeRepositoryImpl implements HomeRepository {
     );
 
     if (response.statusCode == 200) {
-      final jsonList = jsonDecode(response.body) as List;
-      return jsonList.map((e) => StateModel.fromJson(e)).toList();
+      final decoded = jsonDecode(response.body);
+      final results = decoded['results'];
+
+      final data = results as List<dynamic>;
+
+      return data
+          .map((e) => StateModel.fromJson(e as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception('Error al obtener los estados');
     }
