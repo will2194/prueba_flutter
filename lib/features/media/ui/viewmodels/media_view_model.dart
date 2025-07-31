@@ -125,7 +125,7 @@ class MediaViewModel extends StateNotifier<MediaState> {
         error: null,
       );
     } catch (e) {
-      state = state.copyWith(error: "Error al subir archivos");
+      state = state.copyWith(error: e.toString(), loading: false);
     }
   }
 }

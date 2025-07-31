@@ -9,20 +9,19 @@ import 'package:prueba_flutter/features/media/domain/repositories/media_reposito
 class MediaRepositoryImpl implements MediaRepository {
   @override
   Future<String> uploadIne(List<MediaFileModel> mediaFilesIne) async {
-    final base64Images = await Future.wait(
-      mediaFilesIne.map((img) async {
-        final bytes = await File(img.path).readAsBytes();
-        return base64Encode(bytes);
-      }),
-    );
+    final imgBytes = await File(mediaFilesIne[0].path).readAsBytes();
+    final imgData = base64Encode(imgBytes);
+
+    final img2Bytes = await File(mediaFilesIne[1].path).readAsBytes();
+    final img2Data = base64Encode(img2Bytes);
 
     final response = await httpClient.post(
       Uri.parse("$apiBaseUrl/Ine/PostOCRINEAnversoReverso"),
       body: jsonEncode({
-        "anversoINE": base64Images[0],
-        "reversoINE": base64Images[1],
-        "anversoINERecortado": base64Images[0],
-        "reversoINERecortado": base64Images[1],
+        "anversoINE": imgData,
+        "reversoINE": img2Data,
+        "anversoINERecortado": imgData,
+        "reversoINERecortado": img2Data,
         "idSolicitud": 10250,
       }),
       headers: {
@@ -32,7 +31,14 @@ class MediaRepositoryImpl implements MediaRepository {
     );
 
     if (response.statusCode != 200) {
-      throw Exception("Error al subir archivos");
+      final data = jsonDecode(response.body);
+
+      if (data['msgResponse'] != null) {
+        final message = data['msgResponse'];
+        throw Exception(message);
+      }
+
+      throw Exception("Error al subir las imágenes");
     } else {
       final data = jsonDecode(response.body);
 
@@ -60,7 +66,14 @@ class MediaRepositoryImpl implements MediaRepository {
     );
 
     if (response.statusCode != 200) {
-      throw Exception("Error al subir archivos");
+      final data = jsonDecode(response.body);
+
+      if (data['msgResponse'] != null) {
+        final message = data['msgResponse'];
+        throw Exception(message);
+      }
+
+      throw Exception("Error al subir el video");
     } else {
       final data = jsonDecode(response.body);
 
@@ -69,3 +82,4 @@ class MediaRepositoryImpl implements MediaRepository {
     }
   }
 }
+//{"count":0,"next":0,"previous":0,"results":null,"validations":null,"error":true,"msgResponse":"Ya se guardó anteriormente este paso"}
